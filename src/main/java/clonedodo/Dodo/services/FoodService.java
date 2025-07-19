@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FoodService {
@@ -26,6 +27,10 @@ public class FoodService {
 
     public List<Food> getListOfFood() {
         return foodRepository.findAll();
+    }
+
+    public Food findFoodById(Long id) {
+        return foodRepository.findById(id).orElse(null);
     }
 
 }
