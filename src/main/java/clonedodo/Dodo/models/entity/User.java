@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@EnableWebSecurity
+
 @Entity
 @Data
 @Table(name = "user1")
