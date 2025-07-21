@@ -1,10 +1,15 @@
 package clonedodo.Dodo.controllers;
 
+import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -23,6 +28,14 @@ public class UserController {
     @GetMapping("/registration")
     public String registrationPage() {
         return "registration";
+    }
+
+    @GetMapping("/basket")
+    public String basketFood(Authentication authentication, Model model) {
+        String name = authentication.getName();
+        User user = userService.findByUsername(name).orElseThrow();
+        model.addAttribute("foodList", user.getListOfFood());
+        return "basket";
     }
 
     @PostMapping("/postregistration")

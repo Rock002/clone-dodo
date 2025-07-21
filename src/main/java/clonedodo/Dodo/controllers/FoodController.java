@@ -2,7 +2,10 @@ package clonedodo.Dodo.controllers;
 
 import clonedodo.Dodo.models.dto.FoodDto;
 import clonedodo.Dodo.models.entity.Food;
+import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.FoodService;
+import clonedodo.Dodo.services.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +19,11 @@ import java.util.List;
 public class FoodController {
 
     private final FoodService foodService;
+    private final UserService userService;
 
-    public FoodController(FoodService foodService) {
+    public FoodController(FoodService foodService, UserService userService) {
         this.foodService = foodService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -48,6 +53,18 @@ public class FoodController {
     @PostMapping("/createfood")
     public String postCreateFood(Food food) {
         foodService.saveFoodToDB(food);
+        return "redirect:/";
+    }
+
+    @PostMapping("/addToList/{id}")
+    public String addToList(@PathVariable Long id, Authentication authentication) {
+        Food food = foodService.findFoodById(id);
+        String name = authentication.getName();
+        User user = userService.findByUsername(name).orElseThrow();
+        List<Food> foodList = user.getListOfFood();
+        foodList.add(food);
+        user.setListOfFood(foodList);
+        userService.saveUser(user);
         return "redirect:/";
     }
 }

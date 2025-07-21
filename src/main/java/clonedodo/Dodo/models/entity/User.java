@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import java.util.List;
 
 @Entity
 @Data
@@ -19,6 +20,13 @@ public class User {
     private String password;
     @Column(name = "roles")
     private String roles;
+    @Column(name = "foodlist")
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Food> listOfFood;
+
+    public List<Food> getListOfFood() {
+        return listOfFood;
+    }
 
     public Long getId() {
         return id;
@@ -50,5 +58,9 @@ public class User {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public void setListOfFood(List<Food> listOfFood) {
+        this.listOfFood = listOfFood;
     }
 }
