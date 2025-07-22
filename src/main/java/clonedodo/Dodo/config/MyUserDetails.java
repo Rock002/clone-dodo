@@ -17,7 +17,7 @@ public class MyUserDetails implements UserDetails {
     private final List<GrantedAuthority> authorities;
 
     public MyUserDetails(User user) {
-        this.username = user.getUsername();
+        this.username = user.getName();
         this.password = user.getPassword();
         this.authorities = Arrays.stream(user.getRoles().split(","))
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.trim()))

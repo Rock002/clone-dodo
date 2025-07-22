@@ -38,6 +38,16 @@ public class UserController {
         return "basket";
     }
 
+    @PostMapping("/toBasket")
+    public String toBasket() {
+        return "redirect:/basket";
+    }
+
+    @PostMapping("/backToMain")
+    public String backToMain() {
+        return "redirect:/";
+    }
+
     @PostMapping("/postregistration")
     public String postRegistration(User user) {
         user.setRoles("USER");
