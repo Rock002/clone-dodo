@@ -25,18 +25,18 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByName(username);
+        Optional<User> user = userRepository.findByUsername(username);
         return user.map(MyUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(username + "not found"));
     }
 
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
     }
 
     public Optional<User> findByUsername(String username) {
-        return userRepository.findByName(username);
+        return userRepository.findByUsername(username);
     }
 
 }

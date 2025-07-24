@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,13 +16,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "username")
-    private String name;
+    private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "roles")
     private String roles;
     @Column(name = "foodlist")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Food> listOfFood;
 
     public List<Food> getListOfFood() {
@@ -33,7 +34,7 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public String getPassword() {
@@ -45,7 +46,7 @@ public class User {
     }
 
     public void setName(String username) {
-        this.name = username;
+        this.username = username;
     }
 
     public void setId(Long id) {
@@ -60,7 +61,8 @@ public class User {
         this.roles = roles;
     }
 
+    // Удалите сеттер для listOfFood или добавьте проверку:
     public void setListOfFood(List<Food> listOfFood) {
-        this.listOfFood = listOfFood;
+        this.listOfFood = listOfFood != null ? listOfFood : new ArrayList<>();
     }
 }
