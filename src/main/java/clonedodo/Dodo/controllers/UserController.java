@@ -4,6 +4,7 @@ import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,11 @@ public class UserController {
     public String basketFood(Authentication authentication, Model model) {
         String name = authentication.getName();
         User user = userService.findByUsername(name).orElseThrow();
+        List<Food> listOfFood = user.getListOfFood();
+//        System.out.println(listOfFood);
+        if (listOfFood.isEmpty()) {
+            return "emptyBasket";
+        }
         model.addAttribute("foodList", user.getListOfFood());
         return "basket";
     }

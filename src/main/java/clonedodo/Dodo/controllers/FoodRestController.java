@@ -22,7 +22,7 @@ public class FoodRestController {
     }
 
     @GetMapping()
-    public List<FoodDto> mainPage(Model model) {
+    public List<FoodDto> mainPage() {
         List<FoodDto> listOfFoodDto = new ArrayList<>();
         List<Food> foodList = foodService.getListOfFood();
         for (Food food : foodList) {
@@ -32,7 +32,6 @@ public class FoodRestController {
             );
             listOfFoodDto.add(product);
         }
-        model.addAttribute("foodList", listOfFoodDto);
         return listOfFoodDto;
     }
 
