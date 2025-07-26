@@ -31,6 +31,11 @@ public class UserController {
         return "registration";
     }
 
+    @GetMapping("/adminregistration")
+    public String adminRegistration() {
+        return "adminregistration";
+    }
+
     @GetMapping("/basket")
     public String basketFood(Authentication authentication, Model model) {
         String name = authentication.getName();
@@ -57,6 +62,13 @@ public class UserController {
     @PostMapping("/postregistration")
     public String postRegistration(User user) {
         user.setRoles("USER");
+        userService.saveUser(user);
+        return "redirect:/login";
+    }
+
+    @PostMapping("/adminpostregistration")
+    public String adminPostRegistration(User user) {
+        user.setRoles("ADMIN");
         userService.saveUser(user);
         return "redirect:/login";
     }
