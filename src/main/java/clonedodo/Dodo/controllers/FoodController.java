@@ -47,6 +47,11 @@ public class FoodController {
         return "product";
     }
 
+    @PostMapping("/postbook")
+    public String postBook() {
+        return "redirect:/";
+    }
+
     @PostMapping("/product/{id}")
     public String openProduct() {
         return "redirect:/product/{id}";
