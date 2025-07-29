@@ -1,5 +1,6 @@
 package clonedodo.Dodo.controllers;
 
+import clonedodo.Dodo.models.dto.FoodDto;
 import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -40,12 +42,18 @@ public class UserController {
     public String basketFood(Authentication authentication, Model model) {
         String name = authentication.getName();
         User user = userService.findByUsername(name).orElseThrow();
-        List<Food> listOfFood = user.getListOfFood();
+        List<FoodDto> listOfFood = user.getListOfFood().stream()
+                .map(
+                item -> new FoodDto(
+                        item.getName(),
+                        item.getCost()
+                ))
+                .collect(Collectors.toList());
 //        System.out.println(listOfFood);
         if (listOfFood.isEmpty()) {
             return "emptyBasket";
         }
-        model.addAttribute("foodList", user.getListOfFood());
+        model.addAttribute("foodList", listOfFood);
         return "basket";
     }
 
