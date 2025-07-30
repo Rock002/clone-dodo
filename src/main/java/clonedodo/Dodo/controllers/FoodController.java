@@ -69,9 +69,11 @@ public class FoodController {
         String name = authentication.getName();
         User user = userService.findByUsername(name).orElseThrow();
         List<Food> foodList = user.getListOfFood();
-        foodList.add(food);
-        user.setListOfFood(foodList);
-        userService.saveUser(user);
+        if (!foodList.contains(food)) {
+            foodList.add(food);
+            user.setListOfFood(foodList);
+            userService.saveUser(user);
+        }
         return "redirect:/";
     }
 }

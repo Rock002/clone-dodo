@@ -19,8 +19,12 @@ public class MyUserDetails implements UserDetails {
     public MyUserDetails(User user) {
         this.username = user.getName();
         this.password = user.getPassword();
+
         this.authorities = Arrays.stream(user.getRoles().split(","))
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.trim()))
+                .map(role -> {
+                    String cleanRole = role.trim().replace("ROLE_", "");
+                    return new SimpleGrantedAuthority("ROLE_" + cleanRole);
+                })
                 .collect(Collectors.toList());
     }
 

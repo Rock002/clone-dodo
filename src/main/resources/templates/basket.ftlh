@@ -1,6 +1,9 @@
 <#list foodList as food>
-    ${food.name}<br>
-    ${food.cost}<br>
+    <form action="/deleteFromBasket/${food.id}}" method="post">
+        ${food.name}<br>
+        ${food.cost}<br>
+        <input type="submit" value="Удалить">
+    </form>
 </#list>
 
 <form action="/postbook" method="post">
