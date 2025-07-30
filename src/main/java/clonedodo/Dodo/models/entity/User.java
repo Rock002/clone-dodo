@@ -61,7 +61,6 @@ public class User {
         this.roles = roles;
     }
 
-    // Удалите сеттер для listOfFood или добавьте проверку:
     public void setListOfFood(List<Food> listOfFood) {
         this.listOfFood = listOfFood != null ? listOfFood : new ArrayList<>();
     }

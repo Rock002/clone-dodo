@@ -42,13 +42,7 @@ public class UserController {
     public String basketFood(Authentication authentication, Model model) {
         String name = authentication.getName();
         User user = userService.findByUsername(name).orElseThrow();
-        List<FoodDto> listOfFood = user.getListOfFood().stream()
-                .map(
-                item -> new FoodDto(
-                        item.getName(),
-                        item.getCost()
-                ))
-                .collect(Collectors.toList());
+        List<Food> listOfFood = user.getListOfFood();
 //        System.out.println(listOfFood);
         if (listOfFood.isEmpty()) {
             return "emptyBasket";
