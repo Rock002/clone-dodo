@@ -22,7 +22,7 @@ public class User {
     @Column(name = "roles")
     private String roles;
     @Column(name = "foodlist")
-    @OneToMany
+    @ManyToMany
     private List<Food> listOfFood;
 
     public List<Food> getListOfFood() {
