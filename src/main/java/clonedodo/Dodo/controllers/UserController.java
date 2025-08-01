@@ -58,6 +58,14 @@ public class UserController {
         return "basket";
     }
 
+    @GetMapping("/profile")
+    public String profile(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        User user =  userService.findByUsername(username).orElseThrow();
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
     @PostMapping("/toBasket")
     public String toBasket() {
         return "redirect:/basket";
@@ -109,5 +117,10 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/login";
+    }
+
+    @PostMapping("/toProfile")
+    public String toProfile() {
+        return "redirect:/profile";
     }
 }

@@ -9,3 +9,7 @@
 <form action="/toBasket" method="post">
     <input type="submit" value="Корзина">
 </form>
+
+<form action="/toProfile" method="post">
+    <input type="submit" value="Мой профиль">
+</form>
