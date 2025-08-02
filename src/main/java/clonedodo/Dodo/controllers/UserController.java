@@ -123,4 +123,12 @@ public class UserController {
     public String toProfile() {
         return "redirect:/profile";
     }
+
+    @PostMapping("/deleteUser")
+    public String deleteUserProfile(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByUsername(username).orElseThrow();
+        userService.deleteUser(user);
+        return "redirect:/login";
+    }
 }
