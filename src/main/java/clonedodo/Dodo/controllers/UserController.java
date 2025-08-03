@@ -105,6 +105,9 @@ public class UserController {
 
     @PostMapping("/postregistration")
     public String postRegistration(User user) {
+        if (userService.findByUsername(user.getName()).isPresent()) {
+            return "redirect:/registration";
+        }
         user.setRoles("USER");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
