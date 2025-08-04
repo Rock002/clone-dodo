@@ -3,10 +3,8 @@ package clonedodo.Dodo.services;
 import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.repository.FoodRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class FoodService {

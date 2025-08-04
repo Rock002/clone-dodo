@@ -1,20 +1,18 @@
 package clonedodo.Dodo.controllers;
 
-import clonedodo.Dodo.models.dto.FoodDto;
+
 import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.FoodService;
 import clonedodo.Dodo.services.UserService;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,15 +33,23 @@ public class FoodController {
         return "main";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/createFood")
     public String createFood() {
         return "addFood";
     }
 
     @GetMapping("/product/{id}")
-    public String product(@PathVariable Long id, Model model) {
+    public String product(@PathVariable Long id, Model model, Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("not found"));
+        String[] roles = user.getRoles().split(",");
         Food food = foodService.findFoodById(id);
         model.addAttribute("food", food);
+        for (String role : roles) {
+            if (role.equals("ADMIN")) {
+                return "adminProduct";
+            }
+        }
         return "product";
     }
 
@@ -57,7 +63,7 @@ public class FoodController {
         return "redirect:/product/{id}";
     }
 
-    @PostMapping("/createfood")
+    @PostMapping("/postCreateFood")
     public String postCreateFood(Food food) {
         foodService.saveFoodToDB(food);
         return "redirect:/";
@@ -74,6 +80,35 @@ public class FoodController {
             user.setListOfFood(foodList);
             userService.saveUser(user);
         }
+        return "redirect:/";
+    }
+
+    @PostMapping("/remove/{id}")
+    public String removeProduct(@PathVariable Long id) {
+        Food food = foodService.findFoodById(id);
+        List<User> users = userService.getAllUsers();
+        for (User user : users) {
+            List<Food> foodList = user.getListOfFood();
+            foodList.remove(food);
+            user.setListOfFood(foodList);
+            userService.saveUser(user);
+        }
+        foodService.deleteFood(food);
+        return "redirect:/";
+    }
+
+    @PostMapping("/postUpdate/{id}")
+    public String updateProduct(@PathVariable Long id, Food newFood) {
+        Food food = foodService.findFoodById(id);
+        List<User> users = userService.getAllUsers();
+        for (User user : users) {
+            List<Food> foodList = user.getListOfFood();
+            foodList.remove(food);
+            user.setListOfFood(foodList);
+            userService.saveUser(user);
+        }
+        foodService.deleteFood(food);
+        foodService.saveFoodToDB(newFood);
         return "redirect:/";
     }
 }

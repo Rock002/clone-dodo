@@ -32,7 +32,8 @@ public class SecurityConfig {
                                 "/postregistration",
                                 "/adminregistration",
                                 "/adminpostregistration").permitAll()
-                        .requestMatchers("/create", "/createfood").hasRole("ADMIN")
+                        .requestMatchers("/createFood", "/postCreateFood", "/remove/**", "/postUpdate")
+                        .hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
