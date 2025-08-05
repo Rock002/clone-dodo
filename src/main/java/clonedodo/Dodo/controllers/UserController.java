@@ -111,6 +111,9 @@ public class UserController {
     public String toChangePassword(String oldPassword, String newPassword, Authentication authentication) {
         User user = userService.findByUsername(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("not found"));
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return "redirect:/changePassword";
+        }
         user.setPassword(passwordEncoder.encode(newPassword));
         userService.saveUser(user);
         return "redirect:/";
