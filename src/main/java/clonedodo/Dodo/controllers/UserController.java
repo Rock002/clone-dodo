@@ -41,6 +41,11 @@ public class UserController {
         return "adminregistration";
     }
 
+    @GetMapping("/changePassword")
+    public String changePassword() {
+        return "changePassword";
+    }
+
     @GetMapping("/basket")
     public String basketFood(Authentication authentication, Model model) {
         String name = authentication.getName();
@@ -94,6 +99,20 @@ public class UserController {
 
     @PostMapping("/backToMain")
     public String backToMain() {
+        return "redirect:/";
+    }
+
+    @PostMapping("/toChangeForm")
+    public String toChangeForm() {
+        return "redirect:/changePassword";
+    }
+
+    @PostMapping("/toChangePassword")
+    public String toChangePassword(String oldPassword, String newPassword, Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("not found"));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userService.saveUser(user);
         return "redirect:/";
     }
 
