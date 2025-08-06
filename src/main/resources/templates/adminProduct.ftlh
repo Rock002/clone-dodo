@@ -13,3 +13,7 @@ ${food.cost}<br>
 <form action="/remove/${food.id}" method="post">
     <input type="submit" value="удалить"/>
 </form><br>
+
+<form action="/backToMain" method="post">
+    <input type="submit" value="На главную">
+</form>
