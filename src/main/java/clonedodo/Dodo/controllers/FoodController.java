@@ -1,6 +1,7 @@
 package clonedodo.Dodo.controllers;
 
 
+import clonedodo.Dodo.kafka.KafkaProducerService;
 import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.FoodService;
@@ -20,10 +21,12 @@ public class FoodController {
 
     private final FoodService foodService;
     private final UserService userService;
+    private final KafkaProducerService kafkaProducerService;
 
-    public FoodController(FoodService foodService, UserService userService) {
+    public FoodController(FoodService foodService, UserService userService, KafkaProducerService kafkaProducerService) {
         this.foodService = foodService;
         this.userService = userService;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @GetMapping("/")
@@ -54,7 +57,8 @@ public class FoodController {
     }
 
     @PostMapping("/postbook")
-    public String postBook() {
+    public String postBook(Authentication authentication) {
+        kafkaProducerService.sendMessage(authentication.getName());
         return "redirect:/";
     }
 
