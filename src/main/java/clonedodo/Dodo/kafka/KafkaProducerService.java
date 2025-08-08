@@ -1,5 +1,6 @@
 package clonedodo.Dodo.kafka;
 
+import clonedodo.Dodo.models.dto.UserDto;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String message) {
-        kafkaTemplate.send(TOPIC, message);
+    public void sendMessage(UserDto userDto) {
+        kafkaTemplate.send(TOPIC, userDto.toString());
     }
 }

@@ -2,6 +2,7 @@ package clonedodo.Dodo.controllers;
 
 
 import clonedodo.Dodo.kafka.KafkaProducerService;
+import clonedodo.Dodo.models.dto.UserDto;
 import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.FoodService;
@@ -58,7 +59,16 @@ public class FoodController {
 
     @PostMapping("/postbook")
     public String postBook(Authentication authentication) {
-        kafkaProducerService.sendMessage(authentication.getName());
+        User user = userService.findByUsername(authentication.getName())
+                        .orElseThrow(() -> new UsernameNotFoundException("not found"));
+        UserDto userDto = new UserDto(
+                user.getId(),
+                user.getName(),
+                user.getPassword(),
+                user.getRoles(),
+                user.getListOfFood()
+        );
+        kafkaProducerService.sendMessage(userDto);
         return "redirect:/";
     }
 

@@ -2,8 +2,6 @@ package clonedodo.Dodo.models.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import java.util.ArrayList;
 import java.util.List;
 
