@@ -1,8 +1,14 @@
 package clonedodo.Dodo.kafka;
 
 import clonedodo.Dodo.models.dto.UserDto;
+import clonedodo.Dodo.models.entity.Food;
+import clonedodo.Dodo.models.entity.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class KafkaProducerService {
@@ -13,7 +19,15 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(UserDto userDto) {
-        kafkaTemplate.send(TOPIC, userDto.toString());
+    public void sendMessage(User user) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(user.getName());
+        builder.append(' ');
+        List<Food> foodList = user.getListOfFood();
+        for (Food food : foodList) {
+            builder.append(food);
+            builder.append(' ');
+        }
+        kafkaTemplate.send(TOPIC, builder.toString());
     }
 }

@@ -7,6 +7,7 @@ import clonedodo.Dodo.models.entity.Food;
 import clonedodo.Dodo.models.entity.User;
 import clonedodo.Dodo.services.FoodService;
 import clonedodo.Dodo.services.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,17 +59,10 @@ public class FoodController {
     }
 
     @PostMapping("/postbook")
-    public String postBook(Authentication authentication) {
+    public String postBook(Authentication authentication) throws JsonProcessingException {
         User user = userService.findByUsername(authentication.getName())
                         .orElseThrow(() -> new UsernameNotFoundException("not found"));
-        UserDto userDto = new UserDto(
-                user.getId(),
-                user.getName(),
-                user.getPassword(),
-                user.getRoles(),
-                user.getListOfFood()
-        );
-        kafkaProducerService.sendMessage(userDto);
+        kafkaProducerService.sendMessage(user);
         return "redirect:/";
     }
 

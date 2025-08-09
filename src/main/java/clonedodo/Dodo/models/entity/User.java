@@ -23,6 +23,7 @@ public class User {
     @ManyToMany
     private List<Food> listOfFood;
 
+
     public List<Food> getListOfFood() {
         return listOfFood;
     }
