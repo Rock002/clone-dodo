@@ -16,6 +16,11 @@ public class Food {
     @Column(name = "cost")
     private double cost;
 
+    public Food(String name, double cost) {
+        this.name = name;
+        this.cost = cost;
+    }
+
     public Long getId() {
         return id;
     }
