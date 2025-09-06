@@ -1,4 +1,7 @@
 package clonedodo.Dodo.repository;
 
-public interface foodRepository {
+import clonedodo.Dodo.models.entity.Food;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FoodRepository extends JpaRepository<Food, Long> {
 }

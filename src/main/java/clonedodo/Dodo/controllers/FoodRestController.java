@@ -13,16 +13,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/food")
-public class FoodRestConteroller {
+public class FoodRestController {
 
     private final FoodService foodService;
 
-    public FoodRestConteroller(FoodService foodService) {
+    public FoodRestController(FoodService foodService) {
         this.foodService = foodService;
     }
 
     @GetMapping()
-    public List<FoodDto> mainPage(Model model) {
+    public List<FoodDto> mainPage() {
         List<FoodDto> listOfFoodDto = new ArrayList<>();
         List<Food> foodList = foodService.getListOfFood();
         for (Food food : foodList) {
@@ -32,7 +32,6 @@ public class FoodRestConteroller {
             );
             listOfFoodDto.add(product);
         }
-        model.addAttribute("foodList", listOfFoodDto);
         return listOfFoodDto;
     }
 

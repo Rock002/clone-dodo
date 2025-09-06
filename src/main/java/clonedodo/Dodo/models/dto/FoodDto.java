@@ -1,4 +1,7 @@
 package clonedodo.Dodo.models.dto;
 
-public class FoodDto {
-}
+public record FoodDto (
+        String name,
+        Double cost
+)
+{ }
