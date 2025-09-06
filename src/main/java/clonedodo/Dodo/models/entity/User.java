@@ -14,16 +14,12 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Column(name = "username")
     private String username;
-
     @Column(name = "password")
     private String password;
-
     @Column(name = "roles")
     private String roles;
-
     @Column(name = "foodlist")
     @ManyToMany
     private List<Food> listOfFood;
