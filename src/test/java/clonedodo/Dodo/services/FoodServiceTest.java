@@ -25,6 +25,7 @@ public class FoodServiceTest {
     public void returnListOfFood() {
         Mockito.when(foodService.getListOfFood()).thenReturn(getList());
         List<Food> result = foodService.getListOfFood();
+
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals("first", result.get(0).getName());
         Assertions.assertEquals(100, result.get(0).getCost());
