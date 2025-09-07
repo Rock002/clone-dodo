@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Another files ###
+mvnw
+.env
+mvnw.cmd
+.mvn
