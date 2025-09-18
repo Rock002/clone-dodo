@@ -16,6 +16,9 @@ public class Food {
     @Column(name = "cost")
     private double cost;
 
+    public Food() {
+
+    }
     public Food(String name, double cost) {
         this.name = name;
         this.cost = cost;
